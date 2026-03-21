@@ -202,6 +202,38 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
       </svg>
     </section>
 
+    {/* Popular Puja Services */}
+    <section className="services-section" id="services">
+      <div className="container">
+        <SectionTitle title={t(lang, "Popular Puja Services", "लोकप्रिय पूजा सेवाहरू")} />
+        <div className="services-carousel-wrapper">
+          <button className="carousel-nav-btn prev" onClick={() => carouselRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} aria-label="Previous service">‹</button>
+          <div className="services-grid carousel-mode" ref={carouselRef}>
+            {servicesData.slice(0, 4).map((service, index) => (
+              <div key={index} className="service-card reveal-up">
+                <div className="service-img-wrapper">
+                  <img src={service.img || service.image_url || "/images/hero.png"} alt={service.title} />
+                </div>
+                <div className="service-info">
+                  <h3 className="playfair">{service.title}</h3>
+                  <p className="service-desc">{service.desc || service.description}</p>
+                  <div className="service-footer">
+                    <button className="btn-small" onClick={() => { setBookingForm(f => ({...f, service: service.id || ""})); setShowBookingModal(true); }}>{t(lang, "Book Now", "बुक गर्नुहोस्")}</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="carousel-nav-btn next" onClick={() => carouselRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} aria-label="Next service">›</button>
+        </div>
+        <div className="view-all-services-wrapper reveal-up stagger-1" style={{ textAlign: "center", marginTop: "3rem" }}>
+          <button className="btn-secondary" style={{ padding: "14px 40px" }} onClick={() => navigate("/services")}>
+            {t(lang, "Explore All Services", "सबै सेवाहरू अन्वेषण गर्नुहोस्")} ➔
+          </button>
+        </div>
+      </div>
+    </section>
+
     {/* ── Subha Sait Section ── */}
     <section className="subhasait-section" id="subhasait">
       <div className="container">
@@ -258,34 +290,6 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
         <div style={{ textAlign: "center", marginTop: "3rem" }} className="reveal-up stagger-1">
           <button className="btn-secondary" onClick={() => navigate("/subha-sait")}>
             {t(lang, "View Full Calendar", "पूरा पात्रो हेर्नुहोस्")} ➔
-          </button>
-        </div>
-      </div>
-    </section>
-
-    {/* Popular Puja Services */}
-    <section className="services-section" id="services">
-      <div className="container">
-        <SectionTitle title={t(lang, "Popular Puja Services", "लोकप्रिय पूजा सेवाहरू")} />
-        <div className="services-grid carousel-mode" ref={carouselRef}>
-          {servicesData.slice(0, 4).map((service, index) => (
-            <div key={index} className="service-card reveal-up">
-              <div className="service-img-wrapper">
-                <img src={service.img || service.image_url || "/images/hero.png"} alt={service.title} />
-              </div>
-              <div className="service-info">
-                <h3 className="playfair">{service.title}</h3>
-                <p className="service-desc">{service.desc || service.description}</p>
-                <div className="service-footer">
-                  <button className="btn-small" onClick={() => { setBookingForm(f => ({...f, service: service.id || ""})); setShowBookingModal(true); }}>{t(lang, "Book Now", "बुक गर्नुहोस्")}</button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="view-all-services-wrapper reveal-up stagger-1" style={{ textAlign: "center", marginTop: "3rem" }}>
-          <button className="btn-secondary" style={{ padding: "14px 40px" }} onClick={() => navigate("/services")}>
-            {t(lang, "Explore All Services", "सबै सेवाहरू अन्वेषण गर्नुहोस्")} ➔
           </button>
         </div>
       </div>
@@ -446,18 +450,18 @@ const AllServicesView = ({ t, lang, servicesData, setBookingForm, setShowBooking
 );
 
 const rashifalData = [
-  { sign_en: "Aries", sign_np: "मेष", icon: "♈", desc_en: "A good day for new beginnings and financial gains. Health remains stable.", desc_np: "नयाँ कामको थालनी र आर्थिक लाभको लागि राम्रो दिन छ। स्वास्थ्य स्थिर रहनेछ।" },
-  { sign_en: "Taurus", sign_np: "वृष", icon: "♉", desc_en: "You may experience peace of mind and success in creative tasks.", desc_np: "मानसिक शान्ति र सिर्जनात्मक कार्यमा सफलता मिल्नेछ।" },
-  { sign_en: "Gemini", sign_np: "मिथुन", icon: "♊", desc_en: "Travel is highly favored. Be careful of unnecessary expenses.", desc_np: "यात्राको योग छ। अनावश्यक खर्चबाट जोगिनुहोला।" },
-  { sign_en: "Cancer", sign_np: "कर्कट", icon: "♋", desc_en: "Family life will be joyful. A pending work might get completed.", desc_np: "पारिवारिक जीवन खुशीमय हुनेछ। रोकिएको काम सम्पन्न हुन सक्छ।" },
-  { sign_en: "Leo", sign_np: "सिंह", icon: "♌", desc_en: "Confidence will lead to success in professional life. Good time for investments.", desc_np: "आत्मविश्वासले व्यावसायिक जीवनमा सफलता दिलाउनेछ। लगानीको लागि राम्रो समय।" },
-  { sign_en: "Virgo", sign_np: "कन्या", icon: "♍", desc_en: "Spiritual interest will increase. Students will perform exceptionally well.", desc_np: "आध्यात्मिक रुची बढ्नेछ। विद्यार्थीहरूले राम्रो प्रदर्शन गर्नेछन्।" },
-  { sign_en: "Libra", sign_np: "तुला", icon: "♎", desc_en: "Partnerships will be beneficial. Keep calm while making critical decisions.", desc_np: "साझेदारी लाभदायक हुनेछ। महत्वपूर्ण निर्णय लिँदा शान्त रहनुहोला।" },
-  { sign_en: "Scorpio", sign_np: "वृश्चिक", icon: "♏", desc_en: "Hard work brings fruitful rewards. Maintain a healthy diet today.", desc_np: "कडा परिश्रमले फलदायी परिणाम दिनेछ। आज खानपानमा ध्यान दिनुहोला।" },
-  { sign_en: "Sagittarius", sign_np: "धनु", icon: "♐", desc_en: "Social prestige will rise. Spending time with loved ones is advised.", desc_np: "सामाजिक प्रतिष्ठा बढ्नेछ। प्रियजनहरूसँग समय बिताउन सल्लाह दिइन्छ।" },
-  { sign_en: "Capricorn", sign_np: "मकर", icon: "♑", desc_en: "Career opportunities knock on your door. Avoid unnecessary arguments.", desc_np: "क्यारियरका अवसरहरू आउनेछन्। अनावश्यक तर्क-वितर्कबाट बच्नुहोस्।" },
-  { sign_en: "Aquarius", sign_np: "कुम्भ", icon: "♒", desc_en: "Financial conditions will improve. A short trip could be highly refreshing.", desc_np: "आर्थिक अवस्थामा सुधार आउनेछ। छोटो यात्रा ताजापन दिनेछ।" },
-  { sign_en: "Pisces", sign_np: "मीन", icon: "♓", desc_en: "A day filled with immense positive energy. Investments will yield good returns.", desc_np: "सकारात्मक उर्जाले भरिपूर्ण दिन। लगानीले राम्रो प्रतिफल दिनेछ।" },
+  { sign_en: "Aries", sign_np: "मेष", image: "/images/rashifal/mesh.webp", desc_en: "A good day for new beginnings and financial gains. Health remains stable.", desc_np: "नयाँ कामको थालनी र आर्थिक लाभको लागि राम्रो दिन छ। स्वास्थ्य स्थिर रहनेछ।" },
+  { sign_en: "Taurus", sign_np: "वृष", image: "/images/rashifal/brish.webp", desc_en: "You may experience peace of mind and success in creative tasks.", desc_np: "मानसिक शान्ति र सिर्जनात्मक कार्यमा सफलता मिल्नेछ।" },
+  { sign_en: "Gemini", sign_np: "मिथुन", image: "/images/rashifal/mithun.webp", desc_en: "Travel is highly favored. Be careful of unnecessary expenses.", desc_np: "यात्राको योग छ। अनावश्यक खर्चबाट जोगिनुहोला।" },
+  { sign_en: "Cancer", sign_np: "कर्कट", image: "/images/rashifal/karkat.webp", desc_en: "Family life will be joyful. A pending work might get completed.", desc_np: "पारिवारिक जीवन खुशीमय हुनेछ। रोकिएको काम सम्पन्न हुन सक्छ।" },
+  { sign_en: "Leo", sign_np: "सिंह", image: "/images/rashifal/singha.webp", desc_en: "Confidence will lead to success in professional life. Good time for investments.", desc_np: "आत्मविश्वासले व्यावसायिक जीवनमा सफलता दिलाउनेछ। लगानीको लागि राम्रो समय।" },
+  { sign_en: "Virgo", sign_np: "कन्या", image: "/images/rashifal/kanya.webp", desc_en: "Spiritual interest will increase. Students will perform exceptionally well.", desc_np: "आध्यात्मिक रुची बढ्नेछ। विद्यार्थीहरूले राम्रो प्रदर्शन गर्नेछन्।" },
+  { sign_en: "Libra", sign_np: "तुला", image: "/images/rashifal/tula.webp", desc_en: "Partnerships will be beneficial. Keep calm while making critical decisions.", desc_np: "साझेदारी लाभदायक हुनेछ। महत्वपूर्ण निर्णय लिँदा शान्त रहनुहोला।" },
+  { sign_en: "Scorpio", sign_np: "वृश्चिक", image: "/images/rashifal/brischik.webp", desc_en: "Hard work brings fruitful rewards. Maintain a healthy diet today.", desc_np: "कडा परिश्रमले फलदायी परिणाम दिनेछ। आज खानपानमा ध्यान दिनुहोला।" },
+  { sign_en: "Sagittarius", sign_np: "धनु", image: "/images/rashifal/dhanu.webp", desc_en: "Social prestige will rise. Spending time with loved ones is advised.", desc_np: "सामाजिक प्रतिष्ठा बढ्नेछ। प्रियजनहरूसँग समय बिताउन सल्लाह दिइन्छ।" },
+  { sign_en: "Capricorn", sign_np: "मकर", image: "/images/rashifal/makar.webp", desc_en: "Career opportunities knock on your door. Avoid unnecessary arguments.", desc_np: "क्यारियरका अवसरहरू आउनेछन्। अनावश्यक तर्क-वितर्कबाट बच्नुहोस्।" },
+  { sign_en: "Aquarius", sign_np: "कुम्भ", image: "/images/rashifal/kumbha.webp", desc_en: "Financial conditions will improve. A short trip could be highly refreshing.", desc_np: "आर्थिक अवस्थामा सुधार आउनेछ। छोटो यात्रा ताजापन दिनेछ।" },
+  { sign_en: "Pisces", sign_np: "मीन", image: "/images/rashifal/meen.webp", desc_en: "A day filled with immense positive energy. Investments will yield good returns.", desc_np: "सकारात्मक उर्जाले भरिपूर्ण दिन। लगानीले राम्रो प्रतिफल दिनेछ।" },
 ];
 
 const RashifalView = ({ t, lang, setBookingForm, setShowBookingModal }) => {
@@ -472,16 +476,16 @@ const RashifalView = ({ t, lang, setBookingForm, setShowBookingModal }) => {
         
         <div className="rashifal-grid">
           {rashifalData.map((r, i) => (
-            <div className="rashifal-card reveal-up stagger-1" key={i}>
-              <div className="rashifal-icon-wrap">
-                 <span className="rashifal-icon">{r.icon}</span>
-              </div>
+            <div className="rashifal-card h-patro-style reveal-up stagger-1" key={i}>
               <div className="rashifal-content">
                  <div className="rashifal-card-title">
                     <h3 className="playfair">{t(lang, r.sign_en, r.sign_np)}</h3>
-                    <span className="rashifal-en-sub">{r.sign_en}</span>
                  </div>
                  <p className="rashifal-text">{t(lang, r.desc_en, r.desc_np)}</p>
+                 <span className="rashifal-en-sub">{t(lang, "", r.sign_en)}</span>
+              </div>
+              <div className="rashifal-illustration-wrap">
+                 <img src={r.image} alt={r.sign_en} className="rashifal-illustration" onError={(e) => { e.target.src = '/vite.svg'; e.target.style.opacity = '0.3' }} />
               </div>
             </div>
           ))}
@@ -688,6 +692,14 @@ const SamagriView = ({ t, lang, activePuja, setActivePuja, activeSamagriDict, pu
     </div>
   </div>
 );
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 function App() {
   const navigate = useNavigate();
@@ -939,6 +951,7 @@ function App() {
   return (
     <>
       <div className={`purohit-sewa ${lang === 'np' ? 'lang-np' : ''}`}>
+        <ScrollToTop />
         <Header lang={lang} handleLangToggle={handleLangToggle} servicesData={servicesData} setBookingForm={setBookingForm} setShowBookingModal={setShowBookingModal} />
 
         <Routes>
