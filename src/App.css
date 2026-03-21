@@ -8,24 +8,30 @@
 /* HEADER & VEDIC NAVIGATION             */
 /* ------------------------------------- */
 .header {
-  height: 100px;
+  height: 90px;
   display: flex;
   align-items: center;
   position: fixed; 
   width: 100%;
   top: 0;
+  left: 0;
   z-index: 2000;
   background: transparent;
   border-bottom: none;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
 }
 
 .header.scrolled {
-  height: 85px;
-  background: rgba(255, 251, 244, 0.85);
-  backdrop-filter: blur(15px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(195, 139, 72, 0.1);
+  height: 70px;
+  background: rgba(255, 251, 244, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(195, 139, 72, 0.08);
+}
+
+.header.menu-open {
+  background: #FFFDF9 !important;
+  backdrop-filter: none;
 }
 
 .nav-content {
@@ -33,17 +39,21 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100%;
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  height: 100%;
+  cursor: pointer;
 }
 
 .logo-icon {
-  width: 45px;
-  height: 45px;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
 }
 
 .logo-text-block {
@@ -1834,14 +1844,15 @@
 .hamburger-menu {
   display: none;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
   background: transparent;
   border: none;
   cursor: pointer;
-  z-index: 1000;
-  padding: 5px;
-  position: absolute;
-  right: 1.5rem;
+  z-index: 2050;
+  padding: 10px;
+  height: 40px;
+  width: 40px;
 }
 .hamburger-menu span {
   display: block;
@@ -1909,9 +1920,31 @@
   }
   
   .header {
-    justify-content: flex-start;
+    height: 70px;
+    padding: 0;
   }
   
+  .header.scrolled {
+    height: 65px;
+  }
+
+  .nav-content {
+    padding: 0 1.25rem;
+  }
+  
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .logo h2 {
+    font-size: 1.3rem;
+  }
+
+  .logo-tagline {
+    font-size: 0.6rem;
+  }
+
   .subhasait-section, .services-section, .samagri-section, .how-it-works, .testimonials-section {
     padding: 3.5rem 0;
   }
