@@ -45,11 +45,11 @@ const Header = ({ lang, handleLangToggle, servicesData, setBookingForm, setShowB
   ];
 
   return (
-    <nav className={`header ${scrolled ? "scrolled" : ""}`}>
+    <nav className={`header ${scrolled ? "scrolled" : ""} ${mobileMenuOpen ? "menu-open" : ""}`}>
       <div className="container nav-content">
         <div className="logo" onClick={() => { navigate("/"); window.scrollTo(0, 0); closeMenu(); }} style={{cursor: "pointer"}}>
           <svg className="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <text x="50" y="65" fontSize="70" fontFamily="sans-serif" fontWeight="bold" fill="#A7692B" textAnchor="middle">ॐ</text>
+            <text x="50" y="72" fontSize="70" fontFamily="sans-serif" fontWeight="bold" fill="#A7692B" textAnchor="middle">ॐ</text>
           </svg>
           <div className="logo-text-block">
             <h2 className="playfair">{t(lang, "Purohit Sewa", "पुरोहित सेवा")}</h2>
@@ -90,7 +90,7 @@ const Footer = ({ lang, navigate }) => (
         <div className="footer-brand-col">
           <div className="logo footer-logo">
             <svg className="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <text x="50" y="65" fontSize="70" fontFamily="sans-serif" fontWeight="bold" fill="#F0D7B6" textAnchor="middle">ॐ</text>
+              <text x="50" y="72" fontSize="70" fontFamily="sans-serif" fontWeight="bold" fill="#F0D7B6" textAnchor="middle">ॐ</text>
             </svg>
             <div className="logo-text-block">
               <h2 className="playfair" style={{ color: "white" }}>{t(lang, "Purohit Sewa", "पुरोहित सेवा")}</h2>
