@@ -14,7 +14,7 @@ const SectionTitle = ({ title, white = false }) => (
   </div>
 );
 
-const API_BASE = "http://127.0.0.1:8000/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000/api";
 
 // Helper for translations
 const t = (lang, en, np) => (lang === "np" ? np : en);
@@ -139,7 +139,7 @@ const Footer = ({ lang, navigate }) => (
               <li>⏰ 6:00 AM - 9:00 PM</li>
             </ul>
             <div className="admin-link-footer" style={{ marginTop: "1.5rem" }}>
-               <a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.85rem", opacity: "0.6", color: "white", textDecoration: "underline" }}>
+               <a href={`${API_BASE.replace('/api', '')}/admin/`} target="_blank" rel="noopener noreferrer" style={{ fontSize: "0.85rem", opacity: "0.6", color: "white", textDecoration: "underline" }}>
                  {t(lang, "Staff Login", "कर्मचारी लगइन")}
                </a>
             </div>
