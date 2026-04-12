@@ -2158,6 +2158,18 @@
     min-width: 100%;
     max-width: 100%;
     scroll-snap-align: center;
+    height: 100%;
+    min-height: 380px; 
+    display: flex;
+    flex-direction: column;
+  }
+
+  .services-grid.carousel-mode .service-card .service-img-wrapper {
+    height: 180px;
+  }
+
+  .services-grid.carousel-mode .service-card .service-info {
+    padding: 1.2rem;
   }
 
   .testimony-card {
@@ -2210,5 +2222,54 @@
   }
   .logo-tagline {
     display: none; /* Hide tagline on very small phones to save space */
+  }
+}
+/* ── Scroll To Top Button ── */
+.scroll-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(135deg, var(--gold-primary), #D32F2F); /* Gold to Saffron */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 30px rgba(183, 121, 31, 0.3);
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-8px) scale(1.1);
+  box-shadow: 0 15px 40px rgba(183, 121, 31, 0.5);
+}
+
+.scroll-icon {
+  font-weight: bold;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 25px;
+    right: 25px;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
   }
 }

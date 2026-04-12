@@ -45,6 +45,39 @@ const ServiceCard = ({ service, index, t, lang, setBookingForm, setShowBookingMo
     </div>
   </div>
 );
+// Go To Top Button Component
+const GoToTopButton = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 500) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
+  return (
+    <button 
+      className={`scroll-to-top ${isVisible ? 'visible' : ''}`} 
+      onClick={scrollToTop}
+      aria-label="Scroll to top"
+    >
+      <span className="scroll-icon">↑</span>
+    </button>
+  );
+};
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000/api";
 
@@ -192,7 +225,7 @@ const Footer = ({ lang, navigate }) => (
   </footer>
 );
 
-const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsData, activePuja, setActivePuja, activeSamagriDict, pujaTabs, statusLookup, setStatusLookup, statusResults, handleStatusLookup, statusLoading, playBellSound, carouselRef, setBookingForm, setShowBookingModal, navigate, bsMonths, saitYear, saitMonth, setSaitYear, setSaitMonth, selectedCeremony, setSelectedCeremony, ceremonyColors }) => (
+const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsData, activePuja, setActivePuja, activeSamagriDict, pujaTabs, statusLookup, setStatusLookup, statusResults, handleStatusLookup, statusLoading, playBellSound, carouselRef, testimonialCarouselRef, setBookingForm, setShowBookingModal, navigate, bsMonths, saitYear, saitMonth, setSaitYear, setSaitMonth, selectedCeremony, setSelectedCeremony, ceremonyColors, rashifalList }) => (
   <div className="home-page">
     {/* Hero Section */}
     <section className="hero" id="home">
@@ -329,27 +362,14 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
         </p>
         
         <div className="rashi-carousel">
-          {[
-            { en: "Aries", np: "मेष", img: "mesh.webp", teaser: t(lang, "A good day for new beginnings and financial gains.", "नयाँ सुरुवात र आर्थिक लाभको लागि राम्रो दिन।") },
-            { en: "Taurus", np: "वृष", img: "brish.webp", teaser: t(lang, "You may experience peace of mind and success.", "तपाईले मानसिक शान्ति र सफलताको अनुभव गर्न सक्नुहुन्छ।") },
-            { en: "Gemini", np: "मिथुन", img: "mithun.webp", teaser: t(lang, "Travel is highly favored. Be careful of expenses.", "यात्राको लागि राम्रो योग छ। खर्चको ख्याल गर्नुहोला।") },
-            { en: "Cancer", np: "कर्कट", img: "karkat.webp", teaser: t(lang, "Family life will be joyful. Work will be completed.", "पारिवारिक जीवन सुखद हुनेछ। रोकिएका काम बन्नेछन्।") },
-            { en: "Leo", np: "सिंह", img: "singha.webp", teaser: t(lang, "Confidence will lead to success in professional life.", "आत्मविश्वासले व्यावसायिक जीवनमा सफलता दिलाउनेछ।") },
-            { en: "Virgo", np: "कन्या", img: "kanya.webp", teaser: t(lang, "Spiritual interest will increase. Students perform well.", "आध्यात्मिक रुचि बढ्नेछ। विद्यार्थीहरूको प्रदर्शन राम्रो हुनेछ।") },
-            { en: "Libra", np: "तुला", img: "tula.webp", teaser: t(lang, "Partnerships will be beneficial. Keep calm today.", "साझेदारी लाभदायक हुनेछ। आज शान्त रहनुहोला।") },
-            { en: "Scorpio", np: "वृश्चिक", img: "brischik.webp", teaser: t(lang, "Hard work brings rewards. Maintain health today.", "कडा मिहिनेतले फल दिनेछ। स्वास्थ्यको ख्याल राख्नुहोला।") },
-            { en: "Sagittarius", np: "धनु", img: "dhanu.webp", teaser: t(lang, "Social prestige will rise. Spending time with family.", "सामाजिक प्रतिष्ठा बढ्नेछ। परिवारसँग समय बित्नेछ।") },
-            { en: "Capricorn", np: "मकर", img: "makar.webp", teaser: t(lang, "Focus on long-term goals. Stability is expected.", "दीर्घकालीन लक्ष्यहरूमा ध्यान दिनुहोस्। स्थिरता रहनेछ।") },
-            { en: "Aquarius", np: "कुम्भ", img: "kumbha.webp", teaser: t(lang, "Unexpected opportunities may arise. Stay alert.", "अपेक्षित अवसरहरू आउन सक्छन्। सतर्क रहनुहोला।") },
-            { en: "Pisces", np: "मीन", img: "meen.webp", teaser: t(lang, "Inner peace and creativity will be high today.", "आज मानसिक शान्ति र रचनात्मकता उच्च रहनेछ।") }
-          ].map((rashi, idx) => (
+          {rashifalList.map((r, idx) => (
             <div key={idx} className="rashi-item-card" onClick={() => navigate("/rashifal")}>
               <div className="rashi-card-content">
-                <h4 className="rashi-name">{lang === 'np' ? rashi.np : rashi.en}</h4>
-                <p className="rashi-teaser-desc">{rashi.teaser}</p>
+                <h4 className="rashi-name">{lang === 'np' ? r.sign_np : r.sign_en}</h4>
+                <p className="rashi-teaser-desc">{t(lang, r.desc_en, r.desc_np).split('.')[0]}.</p>
               </div>
               <div className="rashi-icon-wrap">
-                <img src={`/images/rashifal/${rashi.img}`} alt={rashi.en} className="rashi-img" />
+                <img src={r.image} alt={r.sign_en} className="rashi-img" onError={(e) => { e.target.src = '/vite.svg'; e.target.style.opacity = '0.3' }} />
               </div>
             </div>
           ))}
@@ -435,38 +455,45 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
     <section className="testimonials-section">
       <div className="container">
         <SectionTitle title={t(lang, "Blessings from our Devotees", "हाम्रा भक्तहरूबाट आशीर्वाद")} />
-        <div className="testimonials-grid">
-          {[
-            ...testimonialsData,
-            { id: "mock1", rating: 5, content: "The pandit was extremely knowledgeable. All the rituals for our Griha Pravesh were performed exactly according to the Vedic scriptures. Highly recommended!", user_name: "Aarav Karki", location: "Kathmandu" },
-            { id: "mock2", rating: 5, content: "Booking was so simple and they provided all the necessary samagri list ahead of time. The Bratabandha ceremony was beautiful and spiritual.", user_name: "Sneha Thapa", location: "Lalitpur" },
-            { id: "mock3", rating: 5, content: "Excellent service! We had a Satyanarayan Puja at home and Pandit Ji explained the meaning of each mantra which made it truly special.", user_name: "Rahul Sharma", location: "Bhaktapur" }
-          ].slice(0, 3).map((t_item, i) => (
-            <div key={t_item.id || i} className="testimonial-card reveal-up stagger-1">
-              <div className="quote-symbol-top">ॐ</div>
-              <div className="quote-icon">“</div>
-              
-              <div className="testimonial-stars">
-                {[...Array(5)].map((_, starIdx) => (
-                  <span key={starIdx} className={(t_item.rating && starIdx < t_item.rating) || (!t_item.rating && starIdx < 5) ? "star-filled" : "star-empty"}>★</span>
-                ))}
-              </div>
-              <p className="testimonial-text">{t_item.content || t_item.message}</p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar-wrapper">
-                  {t_item.user_photo ? (
-                    <img src={t_item.user_photo} alt={t_item.user_name} className="testimonial-avatar" />
-                  ) : (
-                    <div className="testimonial-avatar-fallback">ॐ</div>
-                  )}
+        <div className="services-carousel-wrapper">
+          <button className="carousel-nav-btn prev" onClick={() => { 
+            const scrollAmt = testimonialCarouselRef.current?.offsetWidth || 300;
+            testimonialCarouselRef.current?.scrollBy({ left: -scrollAmt, behavior: 'smooth' });
+          }} aria-label="Previous testimonial">‹</button>
+          
+          <div className="testimonials-grid carousel-mode" ref={testimonialCarouselRef}>
+            {testimonialsData.map((t_item, i) => (
+              <div key={t_item.id || i} className="testimonial-card reveal-up stagger-1">
+                <div className="quote-symbol-top">ॐ</div>
+                <div className="quote-icon">“</div>
+                
+                <div className="testimonial-stars">
+                  {[...Array(5)].map((_, starIdx) => (
+                    <span key={starIdx} className={(t_item.rating && starIdx < t_item.rating) || (!t_item.rating && starIdx < 5) ? "star-filled" : "star-empty"}>★</span>
+                  ))}
                 </div>
-                <div className="author-info">
-                  <strong className="playfair">{t_item.user_name || t_item.name}</strong>
-                  <span>{t_item.location || t(lang, "Devotee", "भक्त")}</span>
+                <p className="testimonial-text">{t_item.content || t_item.message}</p>
+                <div className="testimonial-author">
+                  <div className="testimonial-avatar-wrapper">
+                    {t_item.user_photo ? (
+                      <img src={t_item.user_photo} alt={t_item.user_name} className="testimonial-avatar" />
+                    ) : (
+                      <div className="testimonial-avatar-fallback">ॐ</div>
+                    )}
+                  </div>
+                  <div className="author-info">
+                    <strong className="playfair">{t_item.user_name || t_item.name}</strong>
+                    <span>{t_item.location || t(lang, "Devotee", "भक्त")}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <button className="carousel-nav-btn next" onClick={() => {
+            const scrollAmt = testimonialCarouselRef.current?.offsetWidth || 300;
+            testimonialCarouselRef.current?.scrollBy({ left: scrollAmt, behavior: 'smooth' });
+          }} aria-label="Next testimonial">›</button>
         </div>
       </div>
     </section>
@@ -518,22 +545,8 @@ const AllServicesView = ({ t, lang, servicesData, setBookingForm, setShowBooking
   </div>
 );
 
-const rashifalData = [
-  { sign_en: "Aries", sign_np: "मेष", image: "/images/rashifal/mesh.webp", desc_en: "A good day for new beginnings and financial gains. Health remains stable.", desc_np: "नयाँ कामको थालनी र आर्थिक लाभको लागि राम्रो दिन छ। स्वास्थ्य स्थिर रहनेछ।" },
-  { sign_en: "Taurus", sign_np: "वृष", image: "/images/rashifal/brish.webp", desc_en: "You may experience peace of mind and success in creative tasks.", desc_np: "मानसिक शान्ति र सिर्जनात्मक कार्यमा सफलता मिल्नेछ।" },
-  { sign_en: "Gemini", sign_np: "मिथुन", image: "/images/rashifal/mithun.webp", desc_en: "Travel is highly favored. Be careful of unnecessary expenses.", desc_np: "यात्राको योग छ। अनावश्यक खर्चबाट जोगिनुहोला।" },
-  { sign_en: "Cancer", sign_np: "कर्कट", image: "/images/rashifal/karkat.webp", desc_en: "Family life will be joyful. A pending work might get completed.", desc_np: "पारिवारिक जीवन खुशीमय हुनेछ। रोकिएको काम सम्पन्न हुन सक्छ।" },
-  { sign_en: "Leo", sign_np: "सिंह", image: "/images/rashifal/singha.webp", desc_en: "Confidence will lead to success in professional life. Good time for investments.", desc_np: "आत्मविश्वासले व्यावसायिक जीवनमा सफलता दिलाउनेछ। लगानीको लागि राम्रो समय।" },
-  { sign_en: "Virgo", sign_np: "कन्या", image: "/images/rashifal/kanya.webp", desc_en: "Spiritual interest will increase. Students will perform exceptionally well.", desc_np: "आध्यात्मिक रुची बढ्नेछ। विद्यार्थीहरूले राम्रो प्रदर्शन गर्नेछन्।" },
-  { sign_en: "Libra", sign_np: "तुला", image: "/images/rashifal/tula.webp", desc_en: "Partnerships will be beneficial. Keep calm while making critical decisions.", desc_np: "साझेदारी लाभदायक हुनेछ। महत्वपूर्ण निर्णय लिँदा शान्त रहनुहोला।" },
-  { sign_en: "Scorpio", sign_np: "वृश्चिक", image: "/images/rashifal/brischik.webp", desc_en: "Hard work brings fruitful rewards. Maintain a healthy diet today.", desc_np: "कडा परिश्रमले फलदायी परिणाम दिनेछ। आज खानपानमा ध्यान दिनुहोला।" },
-  { sign_en: "Sagittarius", sign_np: "धनु", image: "/images/rashifal/dhanu.webp", desc_en: "Social prestige will rise. Spending time with loved ones is advised.", desc_np: "सामाजिक प्रतिष्ठा बढ्नेछ। प्रियजनहरूसँग समय बिताउन सल्लाह दिइन्छ।" },
-  { sign_en: "Capricorn", sign_np: "मकर", image: "/images/rashifal/makar.webp", desc_en: "Career opportunities knock on your door. Avoid unnecessary arguments.", desc_np: "क्यारियरका अवसरहरू आउनेछन्। अनावश्यक तर्क-वितर्कबाट बच्नुहोस्।" },
-  { sign_en: "Aquarius", sign_np: "कुम्भ", image: "/images/rashifal/kumbha.webp", desc_en: "Financial conditions will improve. A short trip could be highly refreshing.", desc_np: "आर्थिक अवस्थामा सुधार आउनेछ। छोटो यात्रा ताजापन दिनेछ।" },
-  { sign_en: "Pisces", sign_np: "मीन", image: "/images/rashifal/meen.webp", desc_en: "A day filled with immense positive energy. Investments will yield good returns.", desc_np: "सकारात्मक उर्जाले भरिपूर्ण दिन। लगानीले राम्रो प्रतिफल दिनेछ।" },
-];
 
-const RashifalView = ({ t, lang, setBookingForm, setShowBookingModal }) => {
+const RashifalView = ({ t, lang, rashifalList, setBookingForm, setShowBookingModal }) => {
   const currentDate = new Date().toLocaleDateString(lang === 'np' ? 'ne-NP' : 'en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   return (
     <div className="rashifal-page">
@@ -544,7 +557,7 @@ const RashifalView = ({ t, lang, setBookingForm, setShowBookingModal }) => {
         </div>
         
         <div className="rashifal-grid">
-          {rashifalData.map((r, i) => (
+          {rashifalList.map((r, i) => (
             <div className="rashifal-card h-patro-style reveal-up stagger-1" key={i}>
               <div className="rashifal-content">
                  <div className="rashifal-card-title">
@@ -574,6 +587,134 @@ const RashifalView = ({ t, lang, setBookingForm, setShowBookingModal }) => {
   );
 };
 
+const AdminRashifalView = ({ t, lang, rashifalList, setRashifalList }) => {
+  const [selectedSign, setSelectedSign] = useState(rashifalList[0]?.sign_en || "Aries");
+  const [formData, setFormData] = useState({ 
+    desc_en: "", desc_np: ""
+  });
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const found = rashifalList.find(r => r.sign_en === selectedSign);
+    if (found) {
+      setFormData({ desc_en: found.desc_en, desc_np: found.desc_np });
+    }
+  }, [selectedSign, rashifalList]);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const found = rashifalList.find(r => r.sign_en === selectedSign);
+    
+    try {
+      const isNew = !found?.id;
+      const url = isNew 
+        ? `${API_BASE}/rashifal/` 
+        : `${API_BASE}/rashifal/${found.id}/`;
+      
+      const method = isNew ? "POST" : "PATCH";
+        
+      const payload = {
+        sign_en: selectedSign,
+        sign_np: found?.sign_np || selectedSign,
+        desc_en: formData.desc_en,
+        desc_np: formData.desc_np,
+        image: found?.image || ""
+      };
+
+      const resp = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (resp.ok) {
+        const updatedItem = await resp.json();
+        alert("Rashifal updated successfully!");
+        setRashifalList(prev => {
+          const exists = prev.find(p => p.sign_en === selectedSign);
+          if (exists) {
+            return prev.map(p => p.sign_en === selectedSign ? { ...p, ...updatedItem } : p);
+          }
+          return [...prev, updatedItem];
+        });
+      } else {
+        const errData = await resp.json();
+        alert("Error: " + JSON.stringify(errData));
+      }
+    } catch (err) {
+      alert("Network error connecting to backend.");
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="admin-rashfal-page" style={{ paddingTop: "140px", paddingBottom: "100px", background: "#f8f9fa" }}>
+      <div className="container">
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <SectionTitle title={t(lang, "Admin: Daily Rashifal Update", "व्यवस्थापक: दैनिक राशिफल अपडेट")} />
+        </div>
+        <div className="admin-rashi-card" style={{ maxWidth: "650px", margin: "0 auto", padding: "2.5rem", background: "white", borderRadius: "20px", boxShadow: "0 10px 40px rgba(0,0,0,0.08)", border: "1px solid rgba(195, 139, 72, 0.15)" }}>
+          <form onSubmit={handleUpdate}>
+            <div className="admin-sign-header" style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "2rem", padding: "1rem", background: "#fdf8f4", borderRadius: "12px", border: "1px solid rgba(195,139,72,0.1)" }}>
+               <div className="admin-sign-preview" style={{ width: "80px", height: "80px", background: "white", borderRadius: "50%", display: "flex", alignItems: "center", justifyItems: "center", padding: "5px", boxShadow: "0 4px 10px rgba(0,0,0,0.05)" }}>
+                  <img 
+                    src={rashifalList.find(r => r.sign_en === selectedSign)?.image} 
+                    alt={selectedSign} 
+                    style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                    onError={(e) => { e.target.src = '/vite.svg'; e.target.style.opacity = '0.3' }}
+                  />
+               </div>
+               <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
+                  <label style={{ display: "block", marginBottom: "0.4rem", fontWeight: "600", color: "#444" }}>{t(lang, "Select Zodiac Sign", "राशि चयन गर्नुहोस्")}</label>
+                  <select 
+                    value={selectedSign} 
+                    onChange={(e) => setSelectedSign(e.target.value)}
+                    style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "2px solid #eee", fontSize: "1rem", fontWeight: "600", color: "var(--gold-dark)" }}
+                  >
+                    {rashifalList.map(r => (
+                      <option key={r.sign_en} value={r.sign_en}>{lang === 'np' ? r.sign_np : r.sign_en}</option>
+                    ))}
+                  </select>
+               </div>
+            </div>
+
+            <div className="form-group" style={{ marginBottom: "1.5rem" }}>
+              <label style={{ display: "block", marginBottom: "0.6rem", fontWeight: "600", color: "#444" }}>{t(lang, "Horoscope Description (English)", "भविष्यफल विवरण (अंग्रेजी)")}</label>
+              <textarea 
+                rows="5"
+                value={formData.desc_en}
+                onChange={(e) => setFormData({...formData, desc_en: e.target.value})}
+                style={{ width: "100%", padding: "14px", borderRadius: "10px", border: "2px solid #eee", fontSize: "0.95rem", lineHeight: "1.5" }}
+                placeholder="Enter prediction in English..."
+                required
+              />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: "2.5rem" }}>
+              <label style={{ display: "block", marginBottom: "0.6rem", fontWeight: "600", color: "#444" }}>{t(lang, "Horoscope Description (Nepali)", "भविष्यफल विवरण (नेपाली)")}</label>
+              <textarea 
+                rows="5"
+                value={formData.desc_np}
+                onChange={(e) => setFormData({...formData, desc_np: e.target.value})}
+                style={{ width: "100%", padding: "14px", borderRadius: "10px", border: "2px solid #eee", fontSize: "0.95rem", lineHeight: "1.5" }}
+                placeholder="नेपालीमा भविष्यफल लेख्नुहोस्..."
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn-primary" disabled={loading} style={{ width: "100%", justifyContent: "center", height: "55px", fontSize: "1.1rem" }}>
+              {loading ? "🕉️ Processing..." : `🔄 ${t(lang, "Publish Update", "अपडेट प्रकाशित गर्नुहोस्")}`}
+            </button>
+            <p style={{ marginTop: "1rem", textAlign: "center", fontSize: "0.85rem", color: "#888" }}>
+              * Updates will be reflected immediately in Rashifal and Home sections.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const SubhaSaitView = ({ t, lang, saitMonth, setSaitMonth, bsMonths, saitYear, setSaitYear, selectedCeremony, setSelectedCeremony, dbSubhaSait, ceremonyColors }) => (
   <div className="subha-sait-page">
@@ -809,10 +950,25 @@ function App() {
   const [saitMonth, setSaitMonth] = useState("");
   const [saitYear, setSaitYear] = useState("");
   const carouselRef = useRef(null);
+  const testimonialCarouselRef = useRef(null);
 
   const [statusLookup, setStatusLookup] = useState("");
   const [statusResults, setStatusResults] = useState(null);
   const [statusLoading, setStatusLoading] = useState(false);
+  const [rashifalList, setRashifalList] = useState([
+    { sign_en: "Aries", sign_np: "मेष", image: "/images/rashifal/mesh.webp", desc_en: "A good day for new beginnings and financial gains. Health remains stable.", desc_np: "नयाँ कामको थालनी र आर्थिक लाभको लागि राम्रो दिन छ। स्वास्थ्य स्थिर रहनेछ।" },
+    { sign_en: "Taurus", sign_np: "वृष", image: "/images/rashifal/brush.webp", desc_en: "Good time for social gatherings. Your hard work will be recognized.", desc_np: "सामाजिक जमघटका लागि राम्रो समय छ। तपाईंको मेहनतको कदर हुनेछ।" },
+    { sign_en: "Gemini", sign_np: "मिथुन", image: "/images/rashifal/mithun.webp", desc_en: "Stay focused on your career goals. Avoid unnecessary arguments.", desc_np: "आफ्नो करियरको लक्ष्यमा ध्यान केन्द्रित गर्नुहोस्। अनावश्यक तर्कबाट बच्नुहोस्।" },
+    { sign_en: "Cancer", sign_np: "कर्कट", image: "/images/rashifal/karkat.webp", desc_en: "Family support will help you through challenges. Meditation is helpful.", desc_np: "पारिवारिक सहयोगले तपाईंलाई चुनौतीहरू पार गर्न मद्दत गर्नेछ। ध्यान लाभदायक छ।" },
+    { sign_en: "Leo", sign_np: "सिंह", image: "/images/rashifal/simha.webp", desc_en: "Leadership opportunities arise. Confidence will attract success.", desc_np: "नेतृत्वको अवसरहरू प्राप्त हुनेछन्। आत्मविश्वासले सफलता ल्याउनेछ।" },
+    { sign_en: "Virgo", sign_np: "कन्या", image: "/images/rashifal/kanya.webp", desc_en: "Pay attention to detail in your work. New health routine possible.", desc_np: "आफ्नो काममा साना कुराहरूमा ध्यान दिनुहोस्। नयाँ स्वास्थ्य दिनचर्याको सम्भावना छ।" },
+    { sign_en: "Libra", sign_np: "तुला", image: "/images/rashifal/tula.webp", desc_en: "Balance is key today. Relationships flourish with honest communication.", desc_np: "आज सन्तुलन महत्वपूर्ण छ। इमानदार सञ्चारले सम्बन्धहरू फस्टाउनेछन्।" },
+    { sign_en: "Scorpio", sign_np: "वृश्चिक", image: "/images/rashifal/brishchik.webp", desc_en: "Financial planning brings long-term benefits. Listen to your intuition.", desc_np: "आर्थिक योजनाले दीर्घकालीन फाइदा ल्याउँछ। आफ्नो अन्तर्ज्ञान सुन्नुहोस्।" },
+    { sign_en: "Sagittarius", sign_np: "धनु", image: "/images/rashifal/dhanu.webp", desc_en: "Travel or learning new skills is favored. Optimism leads the way.", desc_np: "यात्रा वा नयाँ सीप सिक्नको लागि अनुकूल छ। आशावादले बाटो देखाउँछ।" },
+    { sign_en: "Capricorn", sign_np: "मकर", image: "/images/rashifal/makar.webp", desc_en: "Career progress is likely. Stay disciplined and patient with goals.", desc_np: "करियरमा प्रगति हुने सम्भावना छ। लक्ष्यप्रति अनुशासित र धैर्यवान रहनुहोस्।" },
+    { sign_en: "Aquarius", sign_np: "कुम्भ", image: "/images/rashifal/kumbha.webp", desc_en: "Creative ideas will be well received. Networking is productive now.", desc_np: "रचनात्मक विचारहरूको कदर हुनेछ। नेटवर्किङ अहिले फलदायी छ।" },
+    { sign_en: "Pisces", sign_np: "मीन", image: "/images/rashifal/meen.webp", desc_en: "Focus on spiritual growth and healing. A day for inner peace.", desc_np: "आध्यात्मिक विकास र उपचारमा ध्यान दिनुहोस्। आन्तरिक शान्तिको लागि एक दिन।" }
+  ]);
 
   const handleLangToggle = () => {
     setLang(prevLang => prevLang === "en" ? "np" : "en");
@@ -858,7 +1014,34 @@ function App() {
 
     fetch(`${API_BASE}/testimonials/`)
       .then(res => res.json())
-      .then(setTestimonialsData).catch(console.error);
+      .then(data => {
+        if (data && data.length > 0) {
+          // Merge fetched data with mocks, avoiding duplicates by ID
+          setTestimonialsData(prev => {
+            const fetchedIds = new Set(data.map(t => t.id));
+            const filteredPrev = prev.filter(t => !fetchedIds.has(t.id));
+            return [...data, ...filteredPrev];
+          });
+        }
+      }).catch(console.error);
+
+    fetch(`${API_BASE}/rashifal/`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          setRashifalList(prev => {
+            // Map fetched data to include images if missing (assuming same names)
+            const updated = data.map(item => {
+              const mock = prev.find(m => m.sign_en === item.sign_en);
+              return { ...item, image: item.image || mock?.image };
+            });
+            // Also keep any signs that were NOT in the database (unlikely but safe)
+            const dbSigns = new Set(data.map(d => d.sign_en));
+            const remaining = prev.filter(p => !dbSigns.has(p.sign_en));
+            return [...updated, ...remaining];
+          });
+        }
+      }).catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -1031,10 +1214,11 @@ function App() {
               activeSamagriDict={activeSamagriDict} pujaTabs={pujaTabs} statusLookup={statusLookup}
               setStatusLookup={setStatusLookup} statusResults={statusResults}
               handleStatusLookup={handleStatusLookup} statusLoading={statusLoading}
-              playBellSound={playBellSound} carouselRef={carouselRef}
+              playBellSound={playBellSound} carouselRef={carouselRef} testimonialCarouselRef={testimonialCarouselRef}
               setBookingForm={setBookingForm} setShowBookingModal={setShowBookingModal} navigate={navigate}
               bsMonths={bsMonths} saitYear={saitYear} saitMonth={saitMonth} setSaitYear={setSaitYear} setSaitMonth={setSaitMonth}
               selectedCeremony={selectedCeremony} setSelectedCeremony={setSelectedCeremony} ceremonyColors={ceremonyColors}
+              rashifalList={rashifalList}
             />
           } />
           <Route path="/services" element={
@@ -1044,13 +1228,16 @@ function App() {
             <SamagriView t={t} lang={lang} activePuja={activePuja} setActivePuja={setActivePuja} activeSamagriDict={activeSamagriDict} pujaTabs={pujaTabs} tithiInfo={tithiInfo} setShowBookingModal={setShowBookingModal} />
           } />
           <Route path="/rashifal" element={
-            <RashifalView t={t} lang={lang} setBookingForm={setBookingForm} setShowBookingModal={setShowBookingModal} />
+            <RashifalView t={t} lang={lang} rashifalList={rashifalList} setBookingForm={setBookingForm} setShowBookingModal={setShowBookingModal} />
           } />
           <Route path="/subha-sait" element={
             <SubhaSaitView t={t} lang={lang} saitMonth={saitMonth} setSaitMonth={setSaitMonth} bsMonths={bsMonths} saitYear={saitYear} setSaitYear={setSaitYear} selectedCeremony={selectedCeremony} setSelectedCeremony={setSelectedCeremony} dbSubhaSait={dbSubhaSait} ceremonyColors={ceremonyColors} />
           } />
           <Route path="/track-booking" element={
             <TrackBookingView t={t} lang={lang} statusLookup={statusLookup} setStatusLookup={setStatusLookup} handleStatusLookup={handleStatusLookup} statusLoading={statusLoading} statusResults={statusResults} />
+          } />
+          <Route path="/admin-rashifal" element={
+            <AdminRashifalView t={t} lang={lang} rashifalList={rashifalList} setRashifalList={setRashifalList} />
           } />
         </Routes>
 
@@ -1152,6 +1339,7 @@ function App() {
           </div>
         </div>
       )}
+      <GoToTopButton />
     </>
   );
 }
