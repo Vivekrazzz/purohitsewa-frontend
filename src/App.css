@@ -1157,6 +1157,18 @@
   gap: 1.8rem;
 }
 
+@media (max-width: 1024px) {
+  .services-grid.show-all {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .services-grid.show-all {
+    grid-template-columns: 1fr;
+  }
+}
+
 .services-carousel-wrapper {
   position: relative;
   width: 100%;
@@ -1232,11 +1244,11 @@
   }
 }
 
-/* Large Desktops: 3 Full Cards */
+/* Large Desktops: 4 Full Cards */
 @media (min-width: 1024px) {
   .services-grid.carousel-mode .service-card {
-    min-width: calc((100% - 3.6rem) / 3);
-    max-width: calc((100% - 3.6rem) / 3);
+    min-width: calc((100% - 5.4rem) / 4);
+    max-width: calc((100% - 5.4rem) / 4);
   }
 }
 

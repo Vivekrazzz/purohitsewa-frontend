@@ -212,7 +212,7 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
             carouselRef.current?.scrollBy({ left: -scrollAmt, behavior: 'smooth' });
           }} aria-label="Previous service">‹</button>
           <div className="services-grid carousel-mode" ref={carouselRef}>
-            {servicesData.slice(0, 4).map((service, index) => (
+            {servicesData.slice(0, 8).map((service, index) => (
               <div key={index} className="service-card reveal-up">
                 <div className="service-img-wrapper">
                   <img src={service.img || service.image_url || "/images/hero.png"} alt={service.title} />
