@@ -1641,12 +1641,12 @@
 }
 
 .step-card {
-  background: linear-gradient(135deg, #FEFCF8, #F9F2E6);
-  border: 1px solid #ECE0CA;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   padding: 3rem 1.5rem;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
   transition: transform 0.3s;
 }
 

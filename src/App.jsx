@@ -319,6 +319,50 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
         </div>
       </div>
     </section>
+    
+    {/* ── Rashifal Teaser Section ── */}
+    <section className="rashifal-teaser-section">
+      <div className="container">
+        <SectionTitle title={t(lang, "Daily Rashifal", "दैनिक राशिफल")} />
+        <p className="section-subtitle" style={{ textAlign: "center", marginBottom: "3rem" }}>
+          {t(lang, "Check your daily horoscope based on Vedic astrology.", "वैदिक ज्योतिषमा आधारित आफ्नो दैनिक राशिफल हेर्नुहोस्।")}
+        </p>
+        
+        <div className="rashi-carousel">
+          {[
+            { en: "Aries", np: "मेष", img: "mesh.webp", teaser: t(lang, "A good day for new beginnings and financial gains.", "नयाँ सुरुवात र आर्थिक लाभको लागि राम्रो दिन।") },
+            { en: "Taurus", np: "वृष", img: "brish.webp", teaser: t(lang, "You may experience peace of mind and success.", "तपाईले मानसिक शान्ति र सफलताको अनुभव गर्न सक्नुहुन्छ।") },
+            { en: "Gemini", np: "मिथुन", img: "mithun.webp", teaser: t(lang, "Travel is highly favored. Be careful of expenses.", "यात्राको लागि राम्रो योग छ। खर्चको ख्याल गर्नुहोला।") },
+            { en: "Cancer", np: "कर्कट", img: "karkat.webp", teaser: t(lang, "Family life will be joyful. Work will be completed.", "पारिवारिक जीवन सुखद हुनेछ। रोकिएका काम बन्नेछन्।") },
+            { en: "Leo", np: "सिंह", img: "singha.webp", teaser: t(lang, "Confidence will lead to success in professional life.", "आत्मविश्वासले व्यावसायिक जीवनमा सफलता दिलाउनेछ।") },
+            { en: "Virgo", np: "कन्या", img: "kanya.webp", teaser: t(lang, "Spiritual interest will increase. Students perform well.", "आध्यात्मिक रुचि बढ्नेछ। विद्यार्थीहरूको प्रदर्शन राम्रो हुनेछ।") },
+            { en: "Libra", np: "तुला", img: "tula.webp", teaser: t(lang, "Partnerships will be beneficial. Keep calm today.", "साझेदारी लाभदायक हुनेछ। आज शान्त रहनुहोला।") },
+            { en: "Scorpio", np: "वृश्चिक", img: "brischik.webp", teaser: t(lang, "Hard work brings rewards. Maintain health today.", "कडा मिहिनेतले फल दिनेछ। स्वास्थ्यको ख्याल राख्नुहोला।") },
+            { en: "Sagittarius", np: "धनु", img: "dhanu.webp", teaser: t(lang, "Social prestige will rise. Spending time with family.", "सामाजिक प्रतिष्ठा बढ्नेछ। परिवारसँग समय बित्नेछ।") },
+            { en: "Capricorn", np: "मकर", img: "makar.webp", teaser: t(lang, "Focus on long-term goals. Stability is expected.", "दीर्घकालीन लक्ष्यहरूमा ध्यान दिनुहोस्। स्थिरता रहनेछ।") },
+            { en: "Aquarius", np: "कुम्भ", img: "kumbha.webp", teaser: t(lang, "Unexpected opportunities may arise. Stay alert.", "अपेक्षित अवसरहरू आउन सक्छन्। सतर्क रहनुहोला।") },
+            { en: "Pisces", np: "मीन", img: "meen.webp", teaser: t(lang, "Inner peace and creativity will be high today.", "आज मानसिक शान्ति र रचनात्मकता उच्च रहनेछ।") }
+          ].map((rashi, idx) => (
+            <div key={idx} className="rashi-item-card" onClick={() => navigate("/rashifal")}>
+              <div className="rashi-card-content">
+                <h4 className="rashi-name">{lang === 'np' ? rashi.np : rashi.en}</h4>
+                <p className="rashi-teaser-desc">{rashi.teaser}</p>
+              </div>
+              <div className="rashi-icon-wrap">
+                <img src={`/images/rashifal/${rashi.img}`} alt={rashi.en} className="rashi-img" />
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div style={{ textAlign: "center", marginTop: "3.5rem" }}>
+          <button className="btn-secondary" onClick={() => navigate("/rashifal")}>
+            {t(lang, "View Details", "विवरण हेर्नुहोस्")}
+          </button>
+        </div>
+      </div>
+    </section>
+
 
     {/* ── Why Choose Us ── */}
     <section className="features-section">

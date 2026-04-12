@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Mukta:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg-main: #FFFBF4; /* Very light warm off-white */
+  --bg-main: #FFFFFF;
   --bg-nav: #FFF9F0;
   --bg-card: #FFFFFF;
   --bg-cream: #FAEDDF;
@@ -33,7 +33,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-main);
+  background-color: #FFFFFF;
   color: var(--text-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -508,28 +508,12 @@ h1, h2, h3, h4, .playfair {
 
 /* ── Subha Sait Section ────────────────────────────────── */
 .subhasait-section {
-  padding: 5rem 0;
-  background: var(--bg-main);
-  position: relative;
-}
-
-.subhasait-section {
   padding: 8rem 0;
-  background-color: #FEFCF8;
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(195, 139, 72, 0.03) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, rgba(195, 139, 72, 0.03) 0%, transparent 20%);
+  background-color: #FFFFFF;
   position: relative;
 }
 
-.subhasait-section::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background-image: url('https://www.transparenttextures.com/patterns/mandala.png');
-  opacity: 0.04;
-  pointer-events: none;
-}
+/* Mandala removed as per white theme request */
 
 .sait-filter-bar {
   display: flex;
@@ -764,7 +748,7 @@ h1, h2, h3, h4, .playfair {
 /* ── Pandit Details Section ── */
 .pandit-details-section {
   padding: 5rem 0 7rem;
-  background: linear-gradient(to bottom, var(--bg-main) 0%, #fffbf5 100%);
+  background: #FFFFFF;
   position: relative;
 }
 
@@ -871,24 +855,13 @@ h1, h2, h3, h4, .playfair {
 /* ── Features Section (Why Choose Us) ── */
 .features-section {
   padding: 8rem 0;
-  background-color: #FDF9F3; /* Slightly warmer cream */
+  background-color: #FFFFFF;
   position: relative;
   overflow: hidden;
 }
 
 /* Subtle Mandala background overlay for the whole section */
-.features-section::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1000px;
-  height: 1000px;
-  background: url('https://www.transparenttextures.com/patterns/mandala.png');
-  opacity: 0.04;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
+/* Mandala removed for white theme */
 
 .features-grid {
   display: grid;
@@ -1588,12 +1561,118 @@ h1, h2, h3, h4, .playfair {
   }
 }
 
+/* ── Rashifal Teaser ── */
+.rashifal-teaser-section {
+  padding: 8rem 0;
+  background-color: #FFFFFF;
+}
+
+.rashi-carousel {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  padding: 1rem 0 3rem;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+
+.rashi-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.rashi-item-card {
+  flex: 0 0 auto;
+  width: 320px; /* Wider for rectangular style */
+  background: white;
+  padding: 1.8rem;
+  border-radius: 12px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left !important;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  margin-right: 1.5rem;
+}
+
+/* Red Accent Line on Left */
+.rashi-item-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 4px; height: 100%;
+  background: #D32F2F; /* Saffron Red */
+  opacity: 0.8;
+}
+
+.rashi-item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  background: #FFFDF9;
+}
+
+.rashi-icon-wrap {
+  width: 75px;
+  height: 75px;
+  background: rgba(211, 47, 47, 0.04); /* Light pinkish glow */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.4s;
+  order: 2; /* Move to right */
+  margin: 0 !important;
+}
+
+.rashi-item-card:hover .rashi-icon-wrap {
+  background: rgba(211, 47, 47, 0.08);
+  transform: scale(1.05);
+}
+
+.rashi-img {
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+  transition: all 0.4s ease;
+}
+
+.rashi-card-content {
+  flex: 1;
+  padding-right: 1rem;
+  order: 1; /* Move to left */
+}
+
+.rashi-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2b6cb0; /* Deep Blue from screenshot */
+  margin-bottom: 0.5rem;
+}
+
+.rashi-teaser-desc {
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.rashi-arrow {
+  display: none; /* Removed as per screenshot style */
+}
+
 /* ------------------------------------- */
 /* RASHIFAL (HOROSCOPE) PAGE             */
 /* ------------------------------------- */
 
 .rashifal-page {
-  background: var(--bg-main);
+  background: #FBF5EC url('https://www.transparenttextures.com/patterns/mandala.png');
   min-height: 100vh;
   position: relative;
 }
