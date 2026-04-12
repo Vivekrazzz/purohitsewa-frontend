@@ -36,6 +36,11 @@
   backdrop-filter: none;
 }
 
+.header.is-subpage {
+  background: rgba(255, 251, 244, 0.98);
+  border-bottom: 1px solid rgba(195, 139, 72, 0.08);
+}
+
 .nav-content {
   display: flex;
   justify-content: space-between;
@@ -69,11 +74,16 @@
   color: var(--text-dark);
   line-height: 1.1;
   letter-spacing: -0.5px;
+  transition: color 0.3s;
+}
+
+.header:not(.scrolled):not(.menu-open):not(.is-subpage) .logo h2 {
+  color: #FFFFFF !important;
 }
 
 .logo-tagline {
   font-family: 'Inter', sans-serif;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: var(--text-light);
   font-weight: 400;
   letter-spacing: 0px;
@@ -88,14 +98,22 @@
 .nav-links a {
   text-decoration: none;
   color: #6A5B53; /* specific greyish-brown from image */
-  font-size: 0.88rem;
+  font-size: 1.1rem;
   font-weight: 500;
-  transition: color 0.3s;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
   gap: 6px;
   position: relative;
   padding-bottom: 4px;
+}
+
+.header:not(.scrolled):not(.menu-open):not(.is-subpage) .nav-links a {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.header:not(.scrolled):not(.menu-open):not(.is-subpage) .nav-links a:hover {
+  color: #FFFFFF !important;
 }
 
 .nav-links a:hover,
@@ -162,23 +180,20 @@
 /* HERO SECTION                          */
 /* ------------------------------------- */
 .hero {
-  padding: 150px 0 160px;
+  min-height: 100vh;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #FDF4E7 0%, var(--bg-main) 100%);
+  background-image: linear-gradient(rgba(17, 10, 5, 0.65), rgba(28, 17, 10, 0.45)), url('/images/hero_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Parallax effect for premium feel */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 0; /* Adjusted padding for vh layout */
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -10%;
-  right: -5%;
-  width: 900px;
-  height: 900px;
-  background: radial-gradient(circle, rgba(240, 215, 182, 0.5) 0%, rgba(255, 251, 244, 0) 70%);
-  pointer-events: none;
-  z-index: 0;
-}
+
 
 .hero-curve-bottom {
   position: absolute;
@@ -200,41 +215,48 @@
 
 .hero-text {
   flex: 1;
-  max-width: 580px;
+  max-width: 850px; /* Wider for centered layout */
+  margin: 0 auto; /* Center horizontally */
+  text-align: center; /* Center typography */
   padding-top: 50px;
   padding-bottom: 50px;
   position: relative;
 }
 
 .hero-title {
-  font-size: 3.4rem;
-  line-height: 1.15;
-  color: var(--text-dark);
-  margin-bottom: 1.2rem;
+  font-size: 3.8rem;
+  line-height: 1.1;
+  color: #FFFFFF; /* White text for contrast on dark bg */
+  margin-bottom: 1.5rem;
   font-weight: 500;
   letter-spacing: -0.5px;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
 }
 
 .hero-title-separator {
   width: 140px;
-  height: 1px;
-  background-color: var(--gold-dark);
-  opacity: 0.25;
-  margin-bottom: 1.5rem;
+  height: 2px;
+  background-color: var(--gold-primary);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  margin: 0 auto 1.8rem; /* Center separator */
 }
 
 .hero-subtitle {
-  font-size: 1.05rem;
-  color: var(--text-body);
-  margin-bottom: 2.8rem;
-  line-height: 1.6;
-  max-width: 480px;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 3rem;
+  line-height: 1.7;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 
 .hero-btns {
   display: flex;
   gap: 1.2rem;
   align-items: center;
+  justify-content: center; /* Center buttons */
 }
 
 .btn-primary {
@@ -258,7 +280,7 @@
 
 .btn-secondary {
   background: transparent;
-  color: var(--text-dark);
+  color: var(--text-dark); /* Revert to dark for light sections */
   border: 1px solid var(--gold-primary);
   padding: 11px 31px;
   border-radius: 50px;
@@ -266,7 +288,17 @@
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s;
+}
+
+.hero .btn-secondary {
+  color: #FFFFFF; /* High contrast for hero bg only */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.hero .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #FFFFFF;
 }
 
 .btn-secondary:hover {
@@ -421,10 +453,11 @@
   max-width: 440px;
   z-index: 5;
   border-radius: 240px 240px 4px 4px;
-  border: 4px solid #fff;
+  border: 4px solid var(--gold-primary);
   object-fit: cover;
   aspect-ratio: 3/3.8;
   display: block;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.5);
 }
 
 /* ------------------------------------- */
@@ -597,6 +630,11 @@
 .calendar-day.today {
   border-color: var(--gold-primary);
   background: rgba(195, 139, 72, 0.05);
+}
+
+.header:not(.scrolled):not(.menu-open):not(.is-subpage) .lang-toggle-btn {
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .calendar-day.today .day-number {
@@ -1153,8 +1191,8 @@
 
 .services-grid.show-all {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.8rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
 }
 
 @media (max-width: 1024px) {
@@ -1218,6 +1256,7 @@
 .services-grid.carousel-mode {
   display: flex;
   overflow-x: auto;
+  overflow-y: hidden; /* Prevent vertical scroll/jiggle */
   scroll-snap-type: x mandatory;
   padding-bottom: 2rem;
   padding-top: 10px;
@@ -1244,23 +1283,24 @@
   }
 }
 
-/* Large Desktops: 4 Full Cards */
+/* Large Desktops: 3 Full Cards */
 @media (min-width: 1024px) {
   .services-grid.carousel-mode .service-card {
-    min-width: calc((100% - 5.4rem) / 4);
-    max-width: calc((100% - 5.4rem) / 4);
+    min-width: calc((100% - 4rem) / 3);
+    max-width: calc((100% - 4rem) / 3);
   }
 }
 
 .service-card {
   background: #FFFFFF;
-  border-radius: 8px;
-  border: 1px solid rgba(222, 206, 185, 0.4);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-  overflow: hidden;
-  transition: all 0.3s;
+  border-radius: 12px;
+  border: 1px solid rgba(222, 206, 185, 0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  overflow: hidden; /* This hides any scrollbars */
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;
   flex-direction: column;
+  height: auto;
 }
 
 .service-card:hover {
@@ -1271,9 +1311,10 @@
 
 .service-img-wrapper {
   width: 100%;
-  height: 180px;
-  padding: 6px 6px 0 6px; 
+  height: 250px;
+  padding: 0; /* Remove padding for edge-to-edge look */
   position: relative;
+  overflow: hidden;
 }
 
 .service-rating {
@@ -1309,34 +1350,45 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px 6px 0 0;
+  transition: transform 0.6s ease;
+}
+
+.service-card:hover .service-img-wrapper img {
+  transform: scale(1.08); /* Zoom effect on hover like premium sites */
 }
 
 .service-info {
-  padding: 1.5rem 1rem;
-  text-align: center;
+  padding: 1.8rem 1.5rem;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align details gracefully to the left now */
-  text-align: left;
+  align-items: flex-start;
   flex-grow: 1;
   background: #FFFFFF;
 }
 
 .service-info h3 {
-  font-size: 1.25rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--text-dark);
-  margin-bottom: 0.5rem;
-  line-height: 1.3;
+  margin-bottom: 0.8rem;
+  line-height: 1.2;
+}
+
+.service-price-tag {
+  color: var(--gold-dark);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+  font-family: 'Inter', sans-serif;
 }
 
 .service-desc {
-  font-size: 0.85rem;
+  font-size: 0.9rem; /* Slightly larger text */
   color: var(--text-body);
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  min-height: 40px; /* Aligns cards with similar text length */
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  min-height: 60px; /* Increased to ensure tall, uniform cards */
 }
 
 .service-meta {
@@ -1366,10 +1418,28 @@
 .service-footer {
   width: 100%;
   margin-top: auto;
-  border-top: 1px solid rgba(222, 206, 185, 0.3);
-  padding-top: 1rem;
+  padding: 0 1.5rem 1.8rem; /* Padding at bottom */
   display: flex;
   justify-content: center;
+}
+
+.service-card .btn-small {
+  width: 100%;
+  max-width: 180px;
+  padding: 0.8rem 1.5rem;
+  background: var(--gold-dark);
+  color: #fff;
+  border-radius: 50px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.service-card .btn-small:hover {
+  background: var(--gold-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(167, 105, 43, 0.3);
 }
 
 .calendar-page-header .book-btn {

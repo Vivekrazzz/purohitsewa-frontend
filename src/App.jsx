@@ -14,6 +14,38 @@ const SectionTitle = ({ title, white = false }) => (
   </div>
 );
 
+const ServiceCard = ({ service, index, t, lang, setBookingForm, setShowBookingModal, revealClass="reveal-up" }) => (
+  <div className={`service-card ${revealClass}`}>
+    <div className="service-img-wrapper">
+      <div className="service-rating">
+        <span className="star-icon">★</span> {service.rating || "4.9"} 
+        <span className="reviews">({service.reviews || "100+"})</span>
+      </div>
+      <img src={service.img || service.image_url || "/images/hero.png"} alt={service.title} />
+    </div>
+    <div className="service-info">
+      <h3 className="playfair">{service.title}</h3>
+      <div className="service-price-tag">{service.price || "Contact for Price"}</div>
+      <p className="service-desc">{service.desc || service.description}</p>
+      
+      <div className="service-meta">
+        <span className="service-tag">
+          <span className="meta-icon">⏱️</span> {service.duration || "2 Hours"}
+        </span>
+        <span className="service-tag">
+          <span className="meta-icon">🌺</span> {t(lang, "Samagri Included", "सामग्री सहित")}
+        </span>
+      </div>
+
+      <div className="service-footer">
+        <button className="btn-small" onClick={() => { setBookingForm(f => ({...f, service: service.id || ""})); setShowBookingModal(true); }}>
+          {t(lang, "Book Now", "बुक गर्नुहोस्")}
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
 const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000/api";
 
 // Helper for translations
@@ -45,7 +77,7 @@ const Header = ({ lang, handleLangToggle, servicesData, setBookingForm, setShowB
   ];
 
   return (
-    <nav className={`header ${scrolled ? "scrolled" : ""} ${mobileMenuOpen ? "menu-open" : ""}`}>
+    <nav className={`header ${scrolled ? "scrolled" : ""} ${mobileMenuOpen ? "menu-open" : ""} ${location.pathname !== '/' ? 'is-subpage' : ''}`}>
       <div className="container nav-content">
         <div className="logo" onClick={() => { navigate("/"); window.scrollTo(0, 0); closeMenu(); }} style={{cursor: "pointer"}}>
           <svg className="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -187,19 +219,9 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
           <div className="hero-btns">
             <button className="btn-primary" onClick={() => { setBookingForm(f => ({...f, service: servicesData[0]?.id || ""})); setShowBookingModal(true); }}>{t(lang, "Book a Puja", "पूजा बुक गर्नुहोस्")}</button>
             <button className="btn-secondary" onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}>{t(lang, "See Services", "सेवाहरू हेर्नुहोस्")}</button>
-          </div>
-        </div>
-        <div className="hero-image-container reveal-right stagger-2">
-          <div className="mandala-bg-huge"></div>
-          <div className="temple-frame-wrapper">
-            <img src="/images/hero.png" alt="Pandit performing puja" className="hero-img-front" />
-            <div className="temple-pillar left"></div><div className="temple-pillar right"></div>
-          </div>
-        </div>
-      </div>
-      <svg className="hero-curve-bottom" viewBox="0 0 1440 180" preserveAspectRatio="none">
-        <path d="M0,90 C400,-30 800,180 1440,50 L1440,180 L0,180 Z" fill="#FDF8F0"></path>
-      </svg>
+          </div> {/* hero-btns */}
+        </div> {/* hero-text */}
+      </div> {/* hero-content */}
     </section>
 
     {/* Popular Puja Services */}
@@ -213,18 +235,15 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
           }} aria-label="Previous service">‹</button>
           <div className="services-grid carousel-mode" ref={carouselRef}>
             {servicesData.slice(0, 8).map((service, index) => (
-              <div key={index} className="service-card reveal-up">
-                <div className="service-img-wrapper">
-                  <img src={service.img || service.image_url || "/images/hero.png"} alt={service.title} />
-                </div>
-                <div className="service-info">
-                  <h3 className="playfair">{service.title}</h3>
-                  <p className="service-desc">{service.desc || service.description}</p>
-                  <div className="service-footer">
-                    <button className="btn-small" onClick={() => { setBookingForm(f => ({...f, service: service.id || ""})); setShowBookingModal(true); }}>{t(lang, "Book Now", "बुक गर्नुहोस्")}</button>
-                  </div>
-                </div>
-              </div>
+              <ServiceCard 
+                key={index} 
+                service={service} 
+                index={index} 
+                t={t} 
+                lang={lang} 
+                setBookingForm={setBookingForm} 
+                setShowBookingModal={setShowBookingModal} 
+              />
             ))}
           </div>
           <button className="carousel-nav-btn next" onClick={() => {
@@ -272,7 +291,7 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
         <div className="sait-cards-grid">
           {(selectedCeremony === "All" ? dbSubhaSait : dbSubhaSait.filter(s => s.ceremony_type === selectedCeremony)).length === 0 ? (
             <div className="sait-empty reveal-scale">
-              <span style={{ fontSize: "2rem" }}>🕉️</span>
+              <span>ॐ</span>
               <p>{t(lang, "No auspicious dates found for this month.", "यो महिनाको लागि कुनै शुभ साइत भेटिएन।")}</p>
             </div>
           ) : (
@@ -380,11 +399,6 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
             { id: "mock3", rating: 5, content: "Excellent service! We had a Satyanarayan Puja at home and Pandit Ji explained the meaning of each mantra which made it truly special.", user_name: "Rahul Sharma", location: "Bhaktapur" }
           ].slice(0, 3).map((t_item, i) => (
             <div key={t_item.id || i} className="testimonial-card reveal-up stagger-1">
-              <div className="corner corner-top-left"></div>
-              <div className="corner corner-top-right"></div>
-              <div className="corner corner-bottom-left"></div>
-              <div className="corner corner-bottom-right"></div>
-              
               <div className="quote-symbol-top">ॐ</div>
               <div className="quote-icon">“</div>
               
@@ -444,29 +458,16 @@ const AllServicesView = ({ t, lang, servicesData, setBookingForm, setShowBooking
       <SectionTitle title={t(lang, "All Puja Services", "सबै पूजा सेवाहरू")} />
       <div className="services-grid show-all" style={{marginTop: "3rem"}}>
         {servicesData.map((service, index) => (
-          <div key={index} className={`service-card reveal-up stagger-${(index % 4) + 1}`}>
-            <div className="service-img-wrapper">
-              <div className="service-rating"><span className="star-icon">★</span> {service.rating || "4.9"} <span className="reviews">({service.reviews || "100+"})</span></div>
-              <img src={service.img || service.image_url || "/images/hero.png"} alt={service.title} />
-            </div>
-            <div className="service-info">
-              <h3 className="playfair">{service.title}</h3>
-              <p className="service-desc">{service.desc || service.description}</p>
-
-              <div className="service-meta">
-                <span className="service-tag">
-                  <span className="meta-icon">⏱️</span> {service.duration || "2 Hours"}
-                </span>
-                <span className="service-tag">
-                  <span className="meta-icon">🌺</span> {t(lang, "Samagri Included", "सामग्री सहित")}
-                </span>
-              </div>
-
-              <div className="service-footer">
-                <button className="btn-small" onClick={() => { setBookingForm(f => ({...f, service: service.id || ""})); setShowBookingModal(true); }}>{t(lang, "Book Now", "बुक गर्नुहोस्")}</button>
-              </div>
-            </div>
-          </div>
+          <ServiceCard 
+            key={index} 
+            service={service} 
+            index={index} 
+            t={t} 
+            lang={lang} 
+            setBookingForm={setBookingForm} 
+            setShowBookingModal={setShowBookingModal} 
+            revealClass={`reveal-up stagger-${(index % 4) + 1}`}
+          />
         ))}
       </div>
     </div>
