@@ -1642,8 +1642,41 @@
 .footer-main-grid {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   position: relative;
   z-index: 5;
+}
+
+@media (max-width: 768px) {
+  .footer-main-grid {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 3rem !important;
+    height: auto !important;
+    display: flex !important;
+  }
+  .footer-brand-col, .footer-links-grid {
+    width: 100% !important;
+    flex: 0 0 auto !important; /* Block shrinking so heights match contents exactly */
+    height: auto !important;
+    min-height: min-content !important;
+    margin-bottom: 2rem !important;
+  }
+  .footer-brand-col {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-logo {
+    justify-content: center;
+    margin-right: 0;
+  }
+  .footer-socials {
+    justify-content: center;
+    margin-top: 1rem;
+  }
 }
 
 /* ------------------------------------- */
@@ -1977,7 +2010,7 @@
     left: 2%; /* Move bell slightly so it doesn't overlap text awkwardly on small screens */
   }
 
-  .footer-links-wrapper {
+  .footer-links-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
     text-align: center;
@@ -2009,11 +2042,22 @@
   }
   
   .section-title, .mega-section-title {
-    font-size: 1.5rem !important;
+    font-size: clamp(0.9rem, 4.5vw, 1.2rem) !important;
+    white-space: nowrap !important;
   }
   
   .services-grid.show-all, .steps-container {
     grid-template-columns: 1fr;
+  }
+  
+  .services-carousel-wrapper {
+    padding: 0 40px;
+  }
+
+  .services-grid.carousel-mode .service-card {
+    min-width: 100%;
+    max-width: 100%;
+    scroll-snap-align: center;
   }
 
   .testimony-card {
