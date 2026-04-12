@@ -855,8 +855,23 @@ h1, h2, h3, h4, .playfair {
 /* ── Features Section (Why Choose Us) ── */
 .features-section {
   padding: 8rem 0;
-  background-color: var(--bg-main);
+  background-color: #FDF9F3; /* Slightly warmer cream */
   position: relative;
+  overflow: hidden;
+}
+
+/* Subtle Mandala background overlay for the whole section */
+.features-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1000px;
+  height: 1000px;
+  background: url('https://www.transparenttextures.com/patterns/mandala.png');
+  opacity: 0.04;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .features-grid {
@@ -867,21 +882,52 @@ h1, h2, h3, h4, .playfair {
 }
 
 .feature-card {
-  background: white;
-  padding: 3.5rem 2.5rem;
-  border-radius: 24px;
+  background: #fffcf7;
+  padding: 4rem 2.5rem;
+  border-radius: 2px; /* Traditional sharp corners with decorative borders */
   text-align: center;
-  border: 1px solid var(--border-gold);
-  box-shadow: var(--shadow-sm);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(167, 105, 43, 0.2);
+  box-shadow: 0 10px 30px rgba(167, 105, 43, 0.05);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
-  overflow: hidden;
+  z-index: 1;
 }
 
+/* Parchment/Handmade paper texture */
+.feature-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+  opacity: 0.3;
+  z-index: -1;
+}
+
+/* Decorative Gold Corners */
+.feature-card .corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--gold-primary);
+  opacity: 0.5;
+  transition: 0.4s;
+}
+
+.feature-card .corner-top-left { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+.feature-card .corner-top-right { top: 15px; right: 15px; border-left: none; border-bottom: none; }
+.feature-card .corner-bottom-left { bottom: 15px; left: 15px; border-right: none; border-top: none; }
+.feature-card .corner-bottom-right { bottom: 15px; right: 15px; border-left: none; border-top: none; }
+
 .feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(167, 105, 43, 0.15);
   border-color: var(--gold-primary);
+}
+
+.feature-card:hover .corner {
+  opacity: 1;
+  width: 40px;
+  height: 40px;
 }
 
 .feature-card::before {
@@ -900,25 +946,52 @@ h1, h2, h3, h4, .playfair {
   opacity: 1;
 }
 
+.feature-symbol-top {
+  font-size: 1.2rem;
+  color: var(--gold-primary);
+  opacity: 0.6;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
 .feature-icon {
-  font-size: 3.5rem;
-  margin-bottom: 2rem;
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
   display: inline-block;
-  filter: drop-shadow(0 4px 8px rgba(167, 105, 43, 0.15));
+  filter: drop-shadow(0 10px 15px rgba(167, 105, 43, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .feature-card h3 {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
   color: var(--text-dark);
-  margin-bottom: 1.2rem;
   font-family: 'Playfair Display', serif;
 }
 
 .feature-card p {
-  color: var(--text-body);
-  line-height: 1.7;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+.feature-border-bottom {
+  width: 40px;
+  height: 2px;
+  background: var(--gold-gradient);
+  margin: 0 auto;
+  opacity: 0.3;
+  transition: 0.4s;
+}
+
+.feature-card:hover .feature-border-bottom {
+  width: 80px;
+  opacity: 0.8;
 }
 
 @media (max-width: 768px) {
@@ -1236,7 +1309,7 @@ h1, h2, h3, h4, .playfair {
 .stagger-5 { transition-delay: 0.75s; }
 /* ── Testimonials Section ── */
 .testimonials-section {
-  padding: 8rem 0 10rem;
+  padding: 5rem 0;
   background: linear-gradient(135deg, #fefbfc 0%, #f4eade 100%);
   position: relative;
   overflow: hidden;
@@ -1265,35 +1338,57 @@ h1, h2, h3, h4, .playfair {
 }
 
 .testimonials-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
-  padding: 1rem;
+  margin-top: 4rem;
   position: relative;
   z-index: 5;
-  margin-top: 3rem;
+}
+
+@media (max-width: 992px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .testimonial-card {
-  width: 100%;
-  max-width: 440px;
-  background: #23160e; /* Deep rich brown/black */
-  padding: 3rem 2.8rem;
-  border-radius: 20px;
-  border: 1px solid rgba(195, 139, 72, 0.15);
-  box-shadow: 0 20px 40px rgba(28, 17, 10, 0.2);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  background: #fffcf7; /* Parchment/Light silk */
+  padding: 2rem 2rem 2.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(167, 105, 43, 0.2);
+  box-shadow: 0 10px 30px rgba(167, 105, 43, 0.05);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow: visible; /* To allow decorative elements to shine */
+}
+
+/* Handmade paper texture */
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+  opacity: 0.3;
+  z-index: 0;
+  border-radius: inherit;
 }
 
 .testimonial-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 30px 60px rgba(28, 17, 10, 0.3);
-  border-color: rgba(195, 139, 72, 0.5);
-  background: #2a1a11;
+  transform: translateY(-10px);
+  box-shadow: 0 25px 60px rgba(167, 105, 43, 0.15);
+  border-color: var(--gold-primary);
 }
 
 /* Subtle glowing gradient on the top edge */
@@ -1311,11 +1406,11 @@ h1, h2, h3, h4, .playfair {
 
 .quote-icon {
   font-family: var(--font-playfair);
-  font-size: 6.5rem;
+  font-size: 4rem;
   color: var(--gold-primary);
-  opacity: 0.15;
+  opacity: 0.1;
   position: absolute;
-  top: 0.5rem;
+  top: 1rem;
   right: 1.5rem;
   line-height: 1;
   pointer-events: none;
@@ -1344,12 +1439,12 @@ h1, h2, h3, h4, .playfair {
 }
 
 .testimonial-text {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.85); /* Light text for readability */
-  margin-bottom: 3rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
   position: relative;
   z-index: 2;
   flex: 1;
@@ -1360,50 +1455,67 @@ h1, h2, h3, h4, .playfair {
   align-items: center;
   gap: 1.2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px dashed rgba(167, 105, 43, 0.2);
   margin-top: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.quote-symbol-top {
+  font-size: 1.1rem;
+  color: var(--gold-primary);
+  opacity: 0.5;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
 }
 
 .testimonial-avatar-wrapper {
   position: relative;
-}
-
-.testimonial-avatar, .testimonial-avatar-fallback {
   width: 55px;
   height: 55px;
   border-radius: 50%;
+  border: 2px solid var(--gold-primary);
+  box-shadow: 0 4px 15px rgba(167, 105, 43, 0.3);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.testimonial-avatar, .testimonial-avatar-fallback {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  box-shadow: 0 4px 15px rgba(195, 139, 72, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem;
-  background: radial-gradient(circle at top left, var(--gold-light), var(--gold-dark));
+  font-size: 1.4rem;
+  background: var(--gold-gradient);
   color: #ffffff;
-  font-family: var(--font-playfair);
-  border: 2px solid #23160e;
+  font-weight: bold;
 }
+
+.author-info strong {
+  display: block;
+  font-size: 1.15rem;
+  color: var(--text-dark);
+}
+
+.author-info span {
+  font-size: 0.85rem;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
 
 .author-info {
   display: flex;
   flex-direction: column;
 }
 
-.testimonial-author strong {
-  font-size: 1.2rem;
-  color: #ffffff;
-  font-family: var(--font-playfair);
-  font-weight: 600;
-}
 
-.testimonial-author span {
-  font-size: 0.8rem;
-  color: var(--gold-primary);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 0.3rem;
-}
 
 @media (max-width: 768px) {
   .testimonials-section {

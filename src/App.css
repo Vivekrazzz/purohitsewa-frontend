@@ -1224,6 +1224,22 @@
   flex: 0 0 auto;
 }
 
+/* Tablets / Small Laptops: 2 Full Cards */
+@media (min-width: 768px) {
+  .services-grid.carousel-mode .service-card {
+    min-width: calc((100% - 1.8rem) / 2);
+    max-width: calc((100% - 1.8rem) / 2);
+  }
+}
+
+/* Large Desktops: 3 Full Cards */
+@media (min-width: 1024px) {
+  .services-grid.carousel-mode .service-card {
+    min-width: calc((100% - 3.6rem) / 3);
+    max-width: calc((100% - 3.6rem) / 3);
+  }
+}
+
 .service-card {
   background: #FFFFFF;
   border-radius: 8px;

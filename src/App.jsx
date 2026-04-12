@@ -207,7 +207,10 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
       <div className="container">
         <SectionTitle title={t(lang, "Popular Puja Services", "लोकप्रिय पूजा सेवाहरू")} />
         <div className="services-carousel-wrapper">
-          <button className="carousel-nav-btn prev" onClick={() => carouselRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} aria-label="Previous service">‹</button>
+          <button className="carousel-nav-btn prev" onClick={() => { 
+            const scrollAmt = carouselRef.current?.offsetWidth || 300;
+            carouselRef.current?.scrollBy({ left: -scrollAmt, behavior: 'smooth' });
+          }} aria-label="Previous service">‹</button>
           <div className="services-grid carousel-mode" ref={carouselRef}>
             {servicesData.slice(0, 4).map((service, index) => (
               <div key={index} className="service-card reveal-up">
@@ -224,7 +227,10 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
               </div>
             ))}
           </div>
-          <button className="carousel-nav-btn next" onClick={() => carouselRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} aria-label="Next service">›</button>
+          <button className="carousel-nav-btn next" onClick={() => {
+            const scrollAmt = carouselRef.current?.offsetWidth || 300;
+            carouselRef.current?.scrollBy({ left: scrollAmt, behavior: 'smooth' });
+          }} aria-label="Next service">›</button>
         </div>
         <div className="view-all-services-wrapper reveal-up stagger-1" style={{ textAlign: "center", marginTop: "3rem" }}>
           <button className="btn-secondary" style={{ padding: "14px 40px" }} onClick={() => navigate("/services")}>
@@ -301,14 +307,22 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
         <SectionTitle title={t(lang, "The Purohit Sewa Advantage", "पुरोहित सेवाको फाइदा")} />
         <div className="features-grid">
           {[
-            { icon: "📜", title: t(lang, "Certified Pandits", "प्रमाणित पण्डितहरू"), desc: t(lang, "All our pujaris are traditionally trained with deep Vedic knowledge.", "हाम्रा सबै पुजारीहरू गहिरो वैदिक ज्ञानका साथ परम्परागत रूपमा प्रशिक्षित छन्।") },
-            { icon: "🍶", title: t(lang, "Full Samagri Support", "पूर्ण सामग्री सहयोग"), desc: t(lang, "We provide detailed lists and can also arrange complete puja samagri.", "हामी विस्तृत सूचीहरू प्रदान गर्दछौं र पूर्ण पूजा सामग्री पनि व्यवस्था गर्न सक्छौं।") },
-            { icon: "📅", title: t(lang, "Subha Sait Selection", "शुभ साइत चयन"), desc: t(lang, "Accurate planetary alignment checks for the maximum benefit of the ritual.", "अनुष्ठानको अधिकतम लाभको लागि सटीक ग्रह संरेखण जाँचहरू।") }
+            { symbol: "ॐ", icon: "📜", title: t(lang, "Certified Pandits", "प्रमाणित पण्डितहरू"), desc: t(lang, "All our pujaris are traditionally trained with deep Vedic knowledge.", "हाम्रा सबै पुजारीहरू गहिरो वैदिक ज्ञानका साथ परम्परागत रूपमा प्रशिक्षित छन्।") },
+            { symbol: "ॐ", icon: "🪔", title: t(lang, "Full Samagri Support", "पूर्ण सामग्री सहयोग"), desc: t(lang, "We provide detailed lists and can also arrange complete puja samagri.", "हामी विस्तृत सूचीहरू प्रदान गर्दछौं र पूर्ण पूजा सामग्री पनि व्यवस्था गर्न सक्छौं।") },
+            { symbol: "ॐ", icon: "🗓️", title: t(lang, "Subha Sait Selection", "शुभ साइत चयन"), desc: t(lang, "Accurate planetary alignment checks for the maximum benefit of the ritual.", "अनुष्ठानको अधिकतम लाभको लागि सटीक ग्रह संरेखण जाँचहरू।") }
           ].map((f, i) => (
             <div key={i} className="feature-card reveal-scale stagger-1">
+              <div className="corner corner-top-left"></div>
+              <div className="corner corner-top-right"></div>
+              <div className="corner corner-bottom-left"></div>
+              <div className="corner corner-bottom-right"></div>
+              
+              <div className="feature-symbol-top">{f.symbol}</div>
               <div className="feature-icon">{f.icon}</div>
-              <h3>{f.title}</h3>
+              <h3 className="playfair">{f.title}</h3>
               <p>{f.desc}</p>
+              
+              <div className="feature-border-bottom"></div>
             </div>
           ))}
         </div>
@@ -359,9 +373,21 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
       <div className="container">
         <SectionTitle title={t(lang, "Blessings from our Devotees", "हाम्रा भक्तहरूबाट आशीर्वाद")} />
         <div className="testimonials-grid">
-          {testimonialsData.length > 0 ? testimonialsData.map((t_item, i) => (
+          {[
+            ...testimonialsData,
+            { id: "mock1", rating: 5, content: "The pandit was extremely knowledgeable. All the rituals for our Griha Pravesh were performed exactly according to the Vedic scriptures. Highly recommended!", user_name: "Aarav Karki", location: "Kathmandu" },
+            { id: "mock2", rating: 5, content: "Booking was so simple and they provided all the necessary samagri list ahead of time. The Bratabandha ceremony was beautiful and spiritual.", user_name: "Sneha Thapa", location: "Lalitpur" },
+            { id: "mock3", rating: 5, content: "Excellent service! We had a Satyanarayan Puja at home and Pandit Ji explained the meaning of each mantra which made it truly special.", user_name: "Rahul Sharma", location: "Bhaktapur" }
+          ].slice(0, 3).map((t_item, i) => (
             <div key={t_item.id || i} className="testimonial-card reveal-up stagger-1">
+              <div className="corner corner-top-left"></div>
+              <div className="corner corner-top-right"></div>
+              <div className="corner corner-bottom-left"></div>
+              <div className="corner corner-bottom-right"></div>
+              
+              <div className="quote-symbol-top">ॐ</div>
               <div className="quote-icon">“</div>
+              
               <div className="testimonial-stars">
                 {[...Array(5)].map((_, starIdx) => (
                   <span key={starIdx} className={(t_item.rating && starIdx < t_item.rating) || (!t_item.rating && starIdx < 5) ? "star-filled" : "star-empty"}>★</span>
@@ -382,9 +408,7 @@ const HomeView = ({ t, lang, servicesData, dbSubhaSait, tithiInfo, testimonialsD
                 </div>
               </div>
             </div>
-          )) : (
-            <p style={{ textAlign: "center", width: "100%", opacity: 0.6 }}>{t(lang, "Loading testimonials...", "प्रतिक्रियाहरू लोड हुँदैछ...")}</p>
-          )}
+          ))}
         </div>
       </div>
     </section>
