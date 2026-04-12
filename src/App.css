@@ -1641,10 +1641,12 @@
 
 .footer-main-grid {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
   flex-wrap: wrap;
   position: relative;
   z-index: 5;
+  gap: 4rem; /* Ensure healthy gap if they wrap slightly */
 }
 
 @media (max-width: 768px) {
@@ -2051,7 +2053,7 @@
   }
   
   .services-carousel-wrapper {
-    padding: 0 40px;
+    padding: 0 50px;
   }
 
   .services-grid.carousel-mode .service-card {

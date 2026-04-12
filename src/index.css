@@ -210,9 +210,9 @@ h1, h2, h3, h4, .playfair {
   background: rgba(30, 10, 5, 0.65);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: center;
+  align-items: center; /* keep centered visually */
   justify-content: center;
-  z-index: 1000;
+  z-index: 3000;
   padding: 1rem;
 }
 
@@ -227,6 +227,7 @@ h1, h2, h3, h4, .playfair {
   position: relative;
   box-shadow: 0 24px 80px rgba(0,0,0,0.3);
   animation: modalSlideIn 0.3s ease;
+  margin: auto;
 }
 
 .booking-modal {
@@ -1771,7 +1772,7 @@ h1, h2, h3, h4, .playfair {
 }
 
 .footer-brand-col {
-  flex: 1 1 300px;
+  flex: 0 0 350px;
 }
 
 .footer-logo {
@@ -1824,10 +1825,10 @@ h1, h2, h3, h4, .playfair {
 }
 
 .footer-links-grid {
-  flex: 2 1 600px;
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
 }
 
 .footer-col h4 {
